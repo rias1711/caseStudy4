@@ -45,15 +45,5 @@ public class CartController extends MainController {
         }
     }
 
-    @GetMapping()
-    public ModelAndView showCart() {
-        ModelAndView modelAndView = new ModelAndView("/cart");
-        Iterable<Cart> carts = cartService.findAllByOrderNumberAndUser(this.getUser().getOrderNumber(), this.getUser());
-        modelAndView.addObject("carts", carts);
-        Long total = 0L;
-        for (Cart cart : carts) {
-            Optional<Product> product = productService.findById(cart.getProduct().getProductId());
 
-        }
-    }
 }
