@@ -1,36 +1,39 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.Product;
-import com.example.demo.repository.IProductRepository;
+import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    IProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
-    public Iterable<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Optional<Product> findById(Long productId) {
+        return productRepository.findById(productId);
     }
 
     @Override
-    public void saveProduct(Product product) {
+    public void save(Product product) {
         productRepository.save(product);
     }
 
     @Override
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    public void remove(Long productId) {
+        productRepository.deleteById(productId);
     }
 }
