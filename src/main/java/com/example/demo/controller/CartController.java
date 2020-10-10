@@ -37,11 +37,11 @@ public class CartController extends MainController {
     private CategoryService categoryService;
 
     private MyUser getUser() {
-        String name = this.getPrincipal();
-        if (name.contains("anonymousUser")) {
+        String username = this.getPrincipal();
+        if (username.contains("anonymousUser")) {
             return null;
         } else {
-            return userService.findByName(name);
+            return userService.findByUserName(username);
         }
     }
 

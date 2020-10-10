@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
@@ -35,5 +36,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void remove(Long productId) {
         productRepository.deleteById(productId);
+    }
+
+    @Override
+    public Page<Product> findAllByCategory(Category category, Pageable pageable) {
+        return productRepository.findAllByCategory(category, pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
+        return productRepository.findAllByNameContaining(name, pageable);
     }
 }

@@ -67,7 +67,7 @@ public class UserController extends MainController {
     @GetMapping("/editUser")
     public ModelAndView formEdit() {
         ModelAndView modelAndView = new ModelAndView("editUser");
-        modelAndView.addObject("user", userService.findByName(getPrincipal()));
+        modelAndView.addObject("user", userService.findByUserName(getPrincipal()));
         return modelAndView;
     }
 

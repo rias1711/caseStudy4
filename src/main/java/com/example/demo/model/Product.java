@@ -26,6 +26,9 @@ public class Product {
     @NotNull
     private double productPrice;
 
+    @NotNull
+    private Long productQuantity;
+
     private String img;
     @Transient
     private MultipartFile imgFile;

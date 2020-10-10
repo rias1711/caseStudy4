@@ -22,4 +22,6 @@ public class Cart {
     private Product product;
 
     private Long quantity;
+
+    private Long orderNumber;
 }

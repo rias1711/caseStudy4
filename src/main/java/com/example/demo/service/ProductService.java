@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,8 @@ public interface ProductService {
     void save(Product product);
 
     void remove(Long productId);
+
+    Page<Product> findAllByCategory(Category category, Pageable pageable);
+
+    Page<Product> findAllByNameContaining(String name, Pageable pageable);
 }

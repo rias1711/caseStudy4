@@ -12,19 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class MainController {
 
     @Autowired
-    private OrderDetailsService orderDetailsService;
-
-    @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private CartService cartService;
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ProductService productService;
 
     @ModelAttribute("username")
     public String getPrincipal() {
@@ -41,11 +34,11 @@ public class MainController {
 
     @ModelAttribute("role")
     public String getRole() {
-        String name = this.getPrincipal();
-        if (name.contains("anonymousUser") ) {
+        String username = this.getPrincipal();
+        if (username.contains("anonymousUser") ) {
             return null;
         } else {
-            return userService.findByName(name).getRole().getRoleName();
+            return userService.findByUserName(username).getRole().getRoleName();
         }
     }
 

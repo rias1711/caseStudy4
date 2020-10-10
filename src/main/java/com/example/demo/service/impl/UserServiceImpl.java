@@ -5,6 +5,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +25,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     RoleService roleService;
@@ -51,13 +52,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public MyUser findByName(String userName) {
-        return userRepository.findByName(userName);
+    public MyUser findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 
     @Override
     public boolean userExists(String username) {
-        return userRepository.findByName(username) != null;
+        return userRepository.findByUserName(username) != null;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (!userExists(user.getUserName())) {
             MyUser myUser = new MyUser();
             myUser.setUserName(user.getUserName());
-            myUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            myUser.setPassword(user.getPassword());
             myUser.setRole(roleService.findByName("ROLE_USER"));
             userRepository.save(myUser);
         }
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser user = this.findByName(username);
+        MyUser user = this.findByUserName(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(user.getRole());
         UserDetails userDetails = new User(user.getUserName(), user.getPassword(), authorities);

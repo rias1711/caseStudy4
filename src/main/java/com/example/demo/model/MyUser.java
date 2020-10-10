@@ -23,7 +23,6 @@ public class MyUser {
     @NotNull
     private String password;
 
-    @Column(name = "User_Role")
     @NotNull
     @ManyToOne
     private Role role;
