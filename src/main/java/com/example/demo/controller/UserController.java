@@ -1,12 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.UserExisted;
 import com.example.demo.model.MyUser;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,20 @@ public class UserController extends MainController {
 
     @GetMapping("/login")
     public ModelAndView login() {
-        return new ModelAndView("login");
+        return new ModelAndView("/login");
+    }
+
+    @PostMapping("/login")
+    public ModelAndView login(MyUser user) {
+        ModelAndView modelAndView;
+        if (userService.checkLogin(user)) {
+            modelAndView = new ModelAndView("/home");
+            modelAndView.addObject("user", user);
+            return modelAndView;
+        }
+        modelAndView = new ModelAndView("/login");
+        modelAndView.addObject("message", "Username or password incorrect");
+        return modelAndView;
     }
 
     @GetMapping("/logout")
@@ -41,7 +53,7 @@ public class UserController extends MainController {
         return "redirect:/home/login";
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("username", getPrincipal());
@@ -56,10 +68,16 @@ public class UserController extends MainController {
     }
 
     @PostMapping("/signUp")
-    public ModelAndView saveUser(@ModelAttribute("user")@Valid MyUser user) {
-        userService.createNewUser(user);
+    public ModelAndView saveUser(@ModelAttribute("user") MyUser user) {
+        try {
+            userService.createNewUser(user);
+        } catch (UserExisted e) {
+            ModelAndView modelAndView = new ModelAndView("signUp");
+            modelAndView.addObject("message", "Account Existed");
+            return modelAndView;
+        }
         ModelAndView modelAndView = new ModelAndView("signUp");
-        modelAndView.addObject("message", "Registed Successfully");
+        modelAndView.addObject("message1", "Register successfully");
         modelAndView.addObject("user", user);
         return modelAndView;
     }
@@ -72,7 +90,7 @@ public class UserController extends MainController {
     }
 
     @PostMapping("/editUser")
-    public ModelAndView saveEdit(@ModelAttribute("user")@Valid MyUser user) {
+    public ModelAndView saveEdit(@ModelAttribute("user") MyUser user) {
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
         user.setRole(roleService.findByName("ROLE_USER"));

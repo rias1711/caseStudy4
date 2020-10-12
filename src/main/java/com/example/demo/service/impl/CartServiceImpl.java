@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Cart;
 import com.example.demo.model.MyUser;
+import com.example.demo.model.Product;
 import com.example.demo.repository.CartRepository;
 import com.example.demo.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,15 @@ public class CartServiceImpl implements CartService {
     @Override
     public Iterable<Cart> findAllByOrderNumberAndUser(Long orderNumber, MyUser user) {
         return cartRepository.findAllByOrderNumberAndUser(orderNumber, user);
+    }
+
+    @Override
+    public Cart findByProductAndUserAndOrderNumber(Optional<Product> product, MyUser user, Long orderNumber) {
+        return cartRepository.findByProductAndUserAndOrderNumber(product, user, orderNumber);
+    }
+
+    @Override
+    public Long countByOrderNumberAndUser(Long orderNumber, MyUser user) {
+        return null;
     }
 }

@@ -18,5 +18,5 @@ public interface ProductService {
 
     Page<Product> findAllByCategory(Category category, Pageable pageable);
 
-    Page<Product> findAllByNameContaining(String name, Pageable pageable);
+    Page<Product> findAllByProductNameContaining(String productName, Pageable pageable);
 }

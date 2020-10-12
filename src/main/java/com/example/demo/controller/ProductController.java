@@ -39,11 +39,32 @@ public class ProductController extends MainController {
         Page<Product> products;
         int pageNumber = 0;
         if (s.isPresent()) {
-            products = productService.findAllByNameContaining(s.get(), pageable);
+            products = productService.findAllByProductNameContaining(s.get(), pageable);
         } else {
             products = productService.findAll(pageable);
         }
         modelAndView.addObject("products", products);
+        return modelAndView;
+    }
+
+    @GetMapping("/create")
+    public ModelAndView showCreateForm() {
+        ModelAndView modelAndView = new ModelAndView("/product/create");
+        modelAndView.addObject("product", new Product());
+        return modelAndView;
+    }
+
+    @PostMapping("/create")
+    public ModelAndView createNewProduct(@ModelAttribute Product product) {
+        Product newProduct = new Product();
+        newProduct.setProductName(product.getProductName());
+        newProduct.setProductPrice(product.getProductPrice());
+        newProduct.setProductQuantity(product.getProductQuantity());
+        newProduct.setCategory(product.getCategory());
+        productService.save(newProduct);
+        ModelAndView modelAndView = new ModelAndView("/product/create");
+        modelAndView.addObject("product", new Product());
+        modelAndView.addObject("message", "New product was created successfully");
         return modelAndView;
     }
 

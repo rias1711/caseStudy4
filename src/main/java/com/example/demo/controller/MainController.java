@@ -7,8 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/home")
 public class MainController {
 
     @Autowired
@@ -46,4 +48,5 @@ public class MainController {
     public Iterable<Category> categories() {
         return categoryService.findAll();
     }
+
 }

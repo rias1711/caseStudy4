@@ -15,5 +15,5 @@ public class OrderDetails {
 
     private Long orderNumber;
 
-    private Long totalPrice;
+    private double totalPrice;
 }
